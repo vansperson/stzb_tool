@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+import 'package:stzb_tool/models/app_state.dart';
+import 'package:stzb_tool/models/hero_item_model.dart';
+import 'package:stzb_tool/redux/actions.dart';
 import 'package:stzb_tool/widgets/homePage/hero_config.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,9 +22,27 @@ class _HomePageState extends State<HomePage> {
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: Column(
             children: <Widget>[
-              HeroConfig(),
-              HeroConfig(),
-              HeroConfig(),
+              StoreConnector<AppState, int>(
+                converter: (Store<AppState> store) => store.state.count,
+                builder: (context, count) {
+                  return Text('$count', style: TextStyle(fontSize: 24));
+                }
+              ),
+              StoreConnector<int, VoidCallBack>(
+                converter: (Store<AppState> store) {
+                  return () => store.dispatch(AddCount);
+                },
+                builder: (context, callback) {
+                  return InkWell(
+                    onTap: callback,
+                    child: Text('点击'),
+                  );
+                },
+              )
+              // HeroConfig(),
+              // HeroConfig(),
+              // HeroConfig(),
+              // Text('1')
             ],
           ),
         )
