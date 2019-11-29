@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:stzb_tool/models/app_state.dart';
 import 'package:stzb_tool/models/hero_item_model.dart';
 import 'package:stzb_tool/redux/actions.dart';
+import 'package:stzb_tool/redux/app_state.dart';
+import 'package:stzb_tool/redux/count_reducer.dart';
 import 'package:stzb_tool/widgets/homePage/hero_config.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,16 +29,11 @@ class _HomePageState extends State<HomePage> {
                   return Text('$count', style: TextStyle(fontSize: 24));
                 }
               ),
-              StoreConnector<AppState, VoidCallback>(
-                converter: (Store<AppState> store) {
-                  return () => store.dispatch(AddCount(2));
+              InkWell(
+                onTap: () {
+                  StoreProvider.of<AppState>(context).dispatch(UpdateCountAction(50));
                 },
-                builder: (context, callback) {
-                  return InkWell(
-                    onTap: callback,
-                    child: Text('点击'),
-                  );
-                },
+                child: Text('点击'),
               )
               // HeroConfig(),
               // HeroConfig(),

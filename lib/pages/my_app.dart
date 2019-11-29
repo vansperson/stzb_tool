@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:stzb_tool/models/app_state.dart';
+import 'package:stzb_tool/redux/app_state.dart';
 import 'package:stzb_tool/routers/application.dart';
 
 class MyApp extends StatelessWidget {
