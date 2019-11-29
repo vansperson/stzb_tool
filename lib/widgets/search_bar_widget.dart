@@ -6,7 +6,7 @@ class SearchBarWidget extends StatefulWidget {
 
   SearchBarWidget({
     Key key,
-    this.onChange
+    @required this.onChange
   });
 
   @override
