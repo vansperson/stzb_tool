@@ -46,7 +46,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
             child: SkipDownTimeProgress(
               color: Colors.orangeAccent,
               radius: offset,
-              duration: Duration(milliseconds: 3000),
+              duration: Duration(milliseconds: 2000),
               size: Size(offset, offset),
               clickListenner: this,
             )

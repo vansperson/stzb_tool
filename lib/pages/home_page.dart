@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:stzb_tool/models/hero_item_model.dart';
-import 'package:stzb_tool/redux/actions.dart';
+import 'package:stzb_tool/models/cast/hero_cast_model.dart';
 import 'package:stzb_tool/redux/app_state.dart';
-import 'package:stzb_tool/redux/count_reducer.dart';
-import 'package:stzb_tool/widgets/homePage/hero_config.dart';
+import 'package:stzb_tool/widgets/homePage/hero_config_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,22 +21,18 @@ class _HomePageState extends State<HomePage> {
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: Column(
             children: <Widget>[
-              StoreConnector<AppState, int>(
-                converter: (Store<AppState> store) => store.state.count,
-                builder: (context, count) {
-                  return Text('$count', style: TextStyle(fontSize: 24));
+              StoreConnector<AppState, HeroCastModel>(
+                converter: (Store<AppState> store) => store.state.heroCast,
+                builder: (context, heroCast) {
+                  return Column(
+                    children: <Widget>[
+                      HeroConfigWiget('大营', heroConfig: heroCast.camp),
+                      HeroConfigWiget('中军', heroConfig: heroCast.central),
+                      HeroConfigWiget('前锋', heroConfig: heroCast.forward)
+                    ],
+                  );
                 }
-              ),
-              InkWell(
-                onTap: () {
-                  StoreProvider.of<AppState>(context).dispatch(UpdateCountAction(50));
-                },
-                child: Text('点击'),
               )
-              // HeroConfig(),
-              // HeroConfig(),
-              // HeroConfig(),
-              // Text('1')
             ],
           ),
         )

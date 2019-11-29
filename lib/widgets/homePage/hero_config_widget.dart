@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:stzb_tool/models/cast/hero_config_model.dart';
 import 'package:stzb_tool/util/index.dart';
 
-class HeroConfig extends StatefulWidget {
+class HeroConfigWiget extends StatefulWidget {
+  final String position;
+  final HeroConfigModel heroConfig;
+
+  HeroConfigWiget(this.position, { this.heroConfig });
+
   @override
-  _HeroConfigState createState() => _HeroConfigState();
+  _HeroConfigWigetState createState() => _HeroConfigWigetState();
 }
 
-class _HeroConfigState extends State<HeroConfig> {
+class _HeroConfigWigetState extends State<HeroConfigWiget> {
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,17 +26,20 @@ class _HeroConfigState extends State<HeroConfig> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          AddRole(),
-          AddMethod(),
-          AddMethod(),
-          AddMethod()
+          AddRoleWiget(widget.position),
+          AddMethodWiget(),
+          AddMethodWiget(),
+          AddMethodWiget()
         ],
       ),
     );
   }
 }
 
-class AddRole extends StatelessWidget {
+class AddRoleWiget extends StatelessWidget {
+  final String position;
+  AddRoleWiget(this.position);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,7 +59,7 @@ class AddRole extends StatelessWidget {
             alignment: Alignment.center,
             height: 45.0,
             child: Text(
-              '大营',
+              position,
               style: TextStyle(
                 fontSize: 15.0,
                 color: Color(0xff1aa1f3)
@@ -116,7 +126,7 @@ class AddRole extends StatelessWidget {
   }
 }
 
-class AddMethod extends StatelessWidget {
+class AddMethodWiget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

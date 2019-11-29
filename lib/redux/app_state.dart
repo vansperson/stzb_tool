@@ -1,19 +1,17 @@
 
-import 'package:stzb_tool/models/hero_item_model.dart';
-import 'package:stzb_tool/redux/count_reducer.dart';
+import 'package:stzb_tool/models/cast/hero_cast_model.dart';
+import 'package:stzb_tool/redux/cast_reducer.dart';
 
 class AppState {
-  int count;
-  List<HeroItemModel> heroCast;
+  HeroCastModel heroCast;
   
   AppState({
-    this.heroCast,
-    this.count
+    this.heroCast
   });
 }
 
 AppState appReducer(AppState state, action) {
   return AppState(
-    count: CountReducer(state.count, action)
+    heroCast: castReducer(state.heroCast, action),
   );
 }
