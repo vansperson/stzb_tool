@@ -13,6 +13,7 @@ class _SearchHeroPageState extends State<SearchHeroPage> with SingleTickerProvid
   TextEditingController _controller;
   FocusNode _focusNode;
   bool _hasFocus = false;
+  String _keyword = '';
 
   @override
   void initState() {
@@ -28,6 +29,12 @@ class _SearchHeroPageState extends State<SearchHeroPage> with SingleTickerProvid
         _animationController.forward();
       }
     });
+
+    _controller.addListener(() {
+      setState(() {
+        _keyword = _controller.value.text;
+      });
+    });    
     super.initState();
   }
 
@@ -109,12 +116,19 @@ class _SearchHeroPageState extends State<SearchHeroPage> with SingleTickerProvid
                               ),
                             ),
                             Offstage(
-                              offstage: false,
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: 30.0,
-                                child: Icon(CupertinoIcons.clear_circled_solid, color: Color(0xffa6b2be))
-                              )
+                              offstage: _keyword.isEmpty,
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _keyword = '';
+                                  });
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: 30.0,
+                                  child: Icon(CupertinoIcons.clear_circled_solid, color: Color(0xffa6b2be))
+                                )
+                              ) 
                             )
                           ],
                         ),
