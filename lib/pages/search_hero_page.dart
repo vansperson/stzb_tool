@@ -119,9 +119,7 @@ class _SearchHeroPageState extends State<SearchHeroPage> with SingleTickerProvid
                               offstage: _keyword.isEmpty,
                               child: InkWell(
                                 onTap: () {
-                                  setState(() {
-                                    _keyword = '';
-                                  });
+                                  _controller.clear();
                                 },
                                 child: Container(
                                   alignment: Alignment.center,

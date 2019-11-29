@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stzb_tool/models/cast/hero_config_model.dart';
 import 'package:stzb_tool/models/cast/hero_skills_model.dart';
+import 'package:stzb_tool/routers/navigator_util.dart';
 import 'package:stzb_tool/util/enum.dart';
 import 'package:stzb_tool/util/index.dart';
 
@@ -47,64 +48,73 @@ class _HeroConfigWigetState extends State<HeroConfigWiget> {
         borderRadius: BorderRadius.circular(5.0),
         border: Border.all(width: 0.5, color: Color(0xffccd7dd)),
       ),
-      child: Column(
-        children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            height: 45.0,
-            child: Text(
-              _positionDesc[widget.heroPosition.index],
-              style: TextStyle(fontSize: 15.0, color: Color(0xff1aa1f3)),
-            ),
-          ),
-          Container(
-            width: 75.0,
-            height: 75.0,
-            alignment: Alignment.topCenter,
-            child: widget.heroConfig == null ? Container(
-              margin: const EdgeInsets.only(top: 10.0),
-              width: 28.0,
-              height: 28.0,
-              child: Image.asset('lib/assets/images/add.png'),
-            ) : Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                PhysicalModel(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(6.0),
-                  clipBehavior: Clip.antiAlias,
-                  child: Container(
-                    width: 65.0,
-                    height: 65.0,
-                    child: Image.network(
-                      '${Utils.baseAvatarUrl}${widget.heroConfig.avatarId}.jpg',
-                    ),
-                  )
-                ),
-                Positioned(
-                  top: -11.0,
-                  right: -11.0,
-                  child: Container(
-                    width: 22.0,
-                    height: 22.0,
-                    child: Image.asset('lib/assets/images/delete.png')
-                  )
-                )
-              ],
-            )
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: Text(
-              widget.heroConfig == null ? '点击添加武将' : widget.heroConfig.name,
-              style: TextStyle(
-                fontSize: 12.0,
-                color: widget.heroConfig == null ? Color(0xffa6b2be) : Color(0xff131519)
+      child: InkWell(
+        onTap: () {
+          if(widget.heroConfig == null) {
+            NavigatorUtil.goPage(context, '/searchHero');
+          } else {
+            print('查看详情');
+          }
+        },
+        child: Column(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              height: 45.0,
+              child: Text(
+                _positionDesc[widget.heroPosition.index],
+                style: TextStyle(fontSize: 15.0, color: Color(0xff1aa1f3)),
               ),
             ),
-          )
-        ],
-      ),
+            Container(
+              width: 75.0,
+              height: 75.0,
+              alignment: Alignment.topCenter,
+              child: widget.heroConfig == null ? Container(
+                margin: const EdgeInsets.only(top: 10.0),
+                width: 28.0,
+                height: 28.0,
+                child: Image.asset('lib/assets/images/add.png'),
+              ) : Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  PhysicalModel(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(6.0),
+                    clipBehavior: Clip.antiAlias,
+                    child: Container(
+                      width: 65.0,
+                      height: 65.0,
+                      child: Image.network(
+                        '${Utils.baseAvatarUrl}${widget.heroConfig.avatarId}.jpg',
+                      ),
+                    )
+                  ),
+                  Positioned(
+                    top: -11.0,
+                    right: -11.0,
+                    child: Container(
+                      width: 22.0,
+                      height: 22.0,
+                      child: Image.asset('lib/assets/images/delete.png')
+                    )
+                  )
+                ],
+              )
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                widget.heroConfig == null ? '点击添加武将' : widget.heroConfig.name,
+                style: TextStyle(
+                  fontSize: 12.0,
+                  color: widget.heroConfig == null ? Color(0xffa6b2be) : Color(0xff131519)
+                ),
+              ),
+            )
+          ],
+        )
+      ) 
     );
   }
 }

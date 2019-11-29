@@ -15,10 +15,8 @@ class Routes {
       }
     );
     
-    router.define(root, handler: searchHeroHandle);
-
-    // router.define(searchHero, handler: searchHeroHandle);
-    // router.define(root, handler: splashHandler);
-    // router.define(home, handler: homeHandler);
+    router.define(root, handler: splashHandler);
+    router.define(home, handler: homeHandler);
+    router.define(searchHero, handler: searchHeroHandle);
   }
 }

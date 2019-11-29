@@ -3,6 +3,11 @@ import 'package:stzb_tool/routers/application.dart';
 import 'package:stzb_tool/routers/routes.dart';
 
 class NavigatorUtil {
+  static void goPage(BuildContext context, String route) {
+    Application.router.navigateTo(context, route);
+  }
+
+  /// 返回
   static void goBack(BuildContext context) {
     Application.router.pop(context);
   }

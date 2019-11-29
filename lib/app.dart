@@ -14,6 +14,9 @@ class App extends StatelessWidget {
       store: store,
       child: MaterialApp(
         title: '率土之滨助手',
+        theme: ThemeData(
+          primaryColor: Colors.white
+        ),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: Application.router.generator,
       )
