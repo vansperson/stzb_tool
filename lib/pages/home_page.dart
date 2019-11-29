@@ -4,7 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:stzb_tool/models/cast/hero_cast_model.dart';
 import 'package:stzb_tool/redux/app_state.dart';
 import 'package:stzb_tool/util/enum.dart';
-import 'package:stzb_tool/widgets/homePage/hero_config_widget.dart';
+import 'package:stzb_tool/widgets/hero_config_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
