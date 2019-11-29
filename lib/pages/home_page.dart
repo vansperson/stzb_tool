@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:stzb_tool/models/cast/hero_cast_model.dart';
 import 'package:stzb_tool/redux/app_state.dart';
+import 'package:stzb_tool/util/enum.dart';
 import 'package:stzb_tool/widgets/homePage/hero_config_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,9 +27,9 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, heroCast) {
                   return Column(
                     children: <Widget>[
-                      HeroConfigWiget('大营', heroConfig: heroCast.camp),
-                      HeroConfigWiget('中军', heroConfig: heroCast.central),
-                      HeroConfigWiget('前锋', heroConfig: heroCast.forward)
+                      HeroConfigWiget(HeroPositionEnum.camp, heroConfig: heroCast.camp),
+                      HeroConfigWiget(HeroPositionEnum.central, heroConfig: heroCast.central),
+                      HeroConfigWiget(HeroPositionEnum.forward, heroConfig: heroCast.forward)
                     ],
                   );
                 }

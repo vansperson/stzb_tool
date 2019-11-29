@@ -10,10 +10,10 @@ HeroConfigModel _$HeroConfigModelFromJson(Map<String, dynamic> json) {
       : HeroSkillsModel.fromJson(json['masterSkill'] as Map<String, dynamic>),
     json['secondSkill'] == null 
       ? null
-      : HeroSkillsModel.fromJson(json['masterSkill'] as Map<String, dynamic>),
+      : HeroSkillsModel.fromJson(json['secondSkill'] as Map<String, dynamic>),
     json['thirdlySkill'] == null 
       ? null
-      : HeroSkillsModel.fromJson(json['masterSkill'] as Map<String, dynamic>)
+      : HeroSkillsModel.fromJson(json['thirdlySkill'] as Map<String, dynamic>)
   );
 }
 
