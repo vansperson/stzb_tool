@@ -28,9 +28,9 @@ class _HomePageState extends State<HomePage> {
                   return Text('$count', style: TextStyle(fontSize: 24));
                 }
               ),
-              StoreConnector<int, VoidCallBack>(
+              StoreConnector<AppState, VoidCallback>(
                 converter: (Store<AppState> store) {
-                  return () => store.dispatch(AddCount);
+                  return () => store.dispatch(AddCount(2));
                 },
                 builder: (context, callback) {
                   return InkWell(
