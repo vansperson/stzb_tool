@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 class SearchBarWidget extends StatefulWidget {
   final void Function(String keyword) onChange;
+  final void Function(bool hasFocus) listenFocus;
 
   SearchBarWidget({
     Key key,
-    @required this.onChange
+    @required this.onChange,
+    this.listenFocus
   });
 
   @override
@@ -32,17 +34,13 @@ class _SearchBarWidgetState extends State<SearchBarWidget> with SingleTickerProv
 
     _focusNode.addListener(() {
       _hasFocus = _focusNode.hasFocus;
-      if(_focusNode.hasFocus) {
+      if(_hasFocus) {
         _animationController.forward();
       }
+      if(widget.listenFocus != null) {
+        widget.listenFocus(_hasFocus);
+      }
     });
-
-    _controller.addListener(() {
-      setState(() {
-        _keyword = _controller.value.text;
-        widget.onChange(_keyword);
-      });
-    });    
     super.initState();
   }
 
@@ -99,6 +97,12 @@ class _SearchBarWidgetState extends State<SearchBarWidget> with SingleTickerProv
                 ),
                 Expanded(
                   child: TextField(
+                    onChanged: (v) {
+                      setState(() {
+                        _keyword = v;
+                        widget.onChange(_keyword);
+                      });
+                    },
                     controller: _controller,
                     focusNode: _focusNode,
                     maxLines: 1,
