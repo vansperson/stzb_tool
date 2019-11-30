@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:stzb_tool/util/index.dart';
 import 'dart:convert';
+
 import 'package:stzb_tool/widgets/drop_select_widget.dart';
 import 'package:stzb_tool/widgets/search_bar_widget.dart';
+import 'package:stzb_tool/widgets/search_list_widget.dart';
 
 class SearchHeroPage extends StatefulWidget {
   @override
@@ -119,64 +120,7 @@ class _SearchHeroPageState extends State<SearchHeroPage> {
                           return Container();
                         }
                         List<dynamic> heros = json.decode(snapshot.data.toString());
-                        return GridView.builder(
-                          padding: const EdgeInsets.all(12.0),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 0.75
-                          ),
-                          itemCount: heros.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            var heroItem = heros[index];
-                            return SizedBox(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Stack(
-                                    children: <Widget>[
-                                      Container(
-                                        child: PhysicalModel(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(6.0),
-                                          clipBehavior: Clip.antiAlias,
-                                          child: Image.network('${Utils.baseAvatarUrl}${heroItem['id']}.jpg'),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        left: 0.0,
-                                        right: 0.0,
-                                        bottom: 0.0,
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          color: Color.fromRGBO(0, 0, 0, 0.7),
-                                          height: 28.0,
-                                          child: Text(heroItem['name'], style: TextStyle(
-                                            fontSize: 15.0,
-                                            color: Colors.white
-                                          ))
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: 30.0,
-                                    width: 85.0,
-                                    margin: const EdgeInsets.only(top: 15.0),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(width: 0.5, color: Color(0xff3fa1f7)),
-                                      borderRadius: BorderRadius.circular(15.0)
-                                    ),
-                                    child: Text('选择', style: TextStyle(
-                                      fontSize: 15.0,
-                                      color: Color(0xff1aa1f3)
-                                    )),
-                                  )
-                                ],
-                              )
-                            );
-                          }
-                        );
+                        return SearchListWidget(list: heros);
                       },
                     )
                   )
