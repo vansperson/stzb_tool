@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:stzb_tool/models/cast/hero_cast_model.dart';
+import 'package:stzb_tool/models/squads/squads_model.dart';
 import 'package:stzb_tool/redux/app_state.dart';
 import 'package:stzb_tool/util/enum.dart';
-import 'package:stzb_tool/widgets/hero_config_widget.dart';
+import 'package:stzb_tool/widgets/squad_item_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,14 +22,14 @@ class _HomePageState extends State<HomePage> {
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: Column(
             children: <Widget>[
-              StoreConnector<AppState, HeroCastModel>(
-                converter: (Store<AppState> store) => store.state.heroCast,
-                builder: (context, heroCast) {
+              StoreConnector<AppState, SquadsModel>(
+                converter: (Store<AppState> store) => store.state.squads,
+                builder: (context, generalCast) {
                   return Column(
                     children: <Widget>[
-                      HeroConfigWiget(HeroPositionEnum.camp, heroConfig: heroCast.camp),
-                      HeroConfigWiget(HeroPositionEnum.central, heroConfig: heroCast.central),
-                      HeroConfigWiget(HeroPositionEnum.forward, heroConfig: heroCast.forward)
+                      SquadItemWidget(GeneralPositionEnum.camp, squadItem: generalCast.camp),
+                      SquadItemWidget(GeneralPositionEnum.central, squadItem: generalCast.central),
+                      SquadItemWidget(GeneralPositionEnum.forward, squadItem: generalCast.forward)
                     ],
                   );
                 }

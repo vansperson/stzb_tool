@@ -3,7 +3,11 @@ import 'package:stzb_tool/util/index.dart';
 
 class SearchListWidget extends StatefulWidget {
   final List<dynamic> list;
-  SearchListWidget({@required this.list});
+  final void Function(int id) onSelect;
+  SearchListWidget({
+    @required this.list,
+    @required this.onSelect
+  });
 
   @override
   _SearchListWidgetState createState() => _SearchListWidgetState();
@@ -20,7 +24,7 @@ class _SearchListWidgetState extends State<SearchListWidget> {
       ),
       itemCount: widget.list.length,
       itemBuilder: (BuildContext context, int index) {
-        var heroItem = widget.list[index];
+        var generalItem = widget.list[index];
         return SizedBox(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -32,7 +36,7 @@ class _SearchListWidgetState extends State<SearchListWidget> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(6.0),
                       clipBehavior: Clip.antiAlias,
-                      child: Image.network('${Utils.baseAvatarUrl}${heroItem['id']}.jpg'),
+                      child: Image.network('${Utils.baseAvatarUrl}${generalItem['id']}.jpg'),
                     ),
                   ),
                   Positioned(
@@ -43,7 +47,7 @@ class _SearchListWidgetState extends State<SearchListWidget> {
                       alignment: Alignment.center,
                       color: Color.fromRGBO(0, 0, 0, 0.7),
                       height: 28.0,
-                      child: Text(heroItem['name'], style: TextStyle(
+                      child: Text(generalItem['name'], style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.white
                       ))
@@ -60,10 +64,15 @@ class _SearchListWidgetState extends State<SearchListWidget> {
                   border: Border.all(width: 0.5, color: Color(0xff3fa1f7)),
                   borderRadius: BorderRadius.circular(15.0)
                 ),
-                child: Text('选择', style: TextStyle(
-                  fontSize: 15.0,
-                  color: Color(0xff1aa1f3)
-                )),
+                child: InkWell(
+                  onTap: () {
+                    widget.onSelect(generalItem['id']);
+                  },
+                  child: Text('选择', style: TextStyle(
+                    fontSize: 15.0,
+                    color: Color(0xff1aa1f3)
+                  ))
+                )
               )
             ],
           )

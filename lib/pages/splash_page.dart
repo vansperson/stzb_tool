@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:stzb_tool/models/global/general_detail_model.dart';
 import 'package:stzb_tool/routers/navigator_util.dart';
-import 'package:stzb_tool/widgets/skip_down_time_progress.dart';
+import 'package:stzb_tool/util/global.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -9,9 +12,12 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateMixin {
   double offset = 22.0;
-  
+  int _assets = 1;
+  int _loadAssets = 0;
+
   @override
   void initState() {
+    _loadData();
     super.initState();
   }
 
@@ -20,8 +26,22 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
     super.dispose();
   }
 
-  void onSkipClick() {
-    NavigatorUtil.goHomePage(context);
+  _loadData() async {
+    rootBundle.loadString('lib/assets/utf8/g10_all_chinese.json').then((value) {
+      if(value.isNotEmpty) {
+        GlobalInfo.generals = (json.decode(value) as List)?.map((f) =>
+          f == null ? null : GeneralDetailModel.fromJson(f as Map<String, dynamic>)
+        )?.toList();
+        _loadAssets += 1;
+        _checkLoadAssets();
+      }
+    });
+  }
+
+  _checkLoadAssets() {
+    if(_loadAssets == _assets) {
+      NavigatorUtil.goHomePage(context);
+    }
   }
 
   @override
@@ -39,17 +59,6 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
               scale: 2.0,
               fit: BoxFit.cover
             ),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).padding.top + offset,
-            right: offset,
-            child: SkipDownTimeProgress(
-              color: Colors.orangeAccent,
-              radius: offset,
-              duration: Duration(milliseconds: 2000),
-              size: Size(offset, offset),
-              clickListenner: this,
-            )
           )
         ],
       ),

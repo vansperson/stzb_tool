@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stzb_tool/routers/application.dart';
 import 'package:stzb_tool/routers/routes.dart';
+import 'package:stzb_tool/util/enum.dart';
 
 class NavigatorUtil {
   static void goPage(BuildContext context, String route) {
@@ -12,13 +13,13 @@ class NavigatorUtil {
     Application.router.pop(context);
   }
 
-  /// 带参数的返回
-  static void goBackWithParams(BuildContext context, result) {
-    Navigator.pop(context, result);
-  }
-
   /// 跳转到主页面
   static void goHomePage(BuildContext context) {
     Application.router.navigateTo(context, Routes.home, replace: true);
+  }
+
+  /// 跳转到武将选择页
+  static void gogeneralSelectPage(BuildContext context, GeneralPositionEnum generalPosition ) {
+    Application.router.navigateTo(context, '${Routes.searchgeneral}?position=${generalPosition.index}');
   }
 }

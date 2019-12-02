@@ -1,17 +1,18 @@
 
-import 'package:stzb_tool/models/cast/hero_cast_model.dart';
-import 'package:stzb_tool/redux/cast_reducer.dart';
+
+import 'package:stzb_tool/models/squads/squads_model.dart';
+import 'package:stzb_tool/redux/squads_reducer.dart';
 
 class AppState {
-  HeroCastModel heroCast;
+  SquadsModel squads;
   
   AppState({
-    this.heroCast
+    this.squads
   });
 }
 
 AppState appReducer(AppState state, action) {
   return AppState(
-    heroCast: castReducer(state.heroCast, action),
+    squads: squadsReducer(state.squads, action),
   );
 }

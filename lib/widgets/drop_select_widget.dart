@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stzb_tool/models/filtrate/filtrate_hero_model.dart';
+import 'package:stzb_tool/models/filtrate/general_filtrate_option_model.dart';
+
 
 class DropSelectWidget extends StatefulWidget {
   final String name;
@@ -32,8 +33,8 @@ class _DropSelectWidgetState extends State<DropSelectWidget> {
 }
 
 class SelectOptionsWidget extends StatefulWidget {
-  final List<FiltrateHeroOptionModel> options;
-  final void Function(FiltrateHeroOptionModel option) onChange;
+  final List<GeneralFiltrateOptionModel> options;
+  final void Function(GeneralFiltrateOptionModel option) onChange;
 
   SelectOptionsWidget({@required this.options, @required this.onChange});
   @override

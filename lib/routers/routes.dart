@@ -5,7 +5,7 @@ import 'package:stzb_tool/routers/route_handlers.dart';
 class Routes {
   static String root = '/';
   static String home = '/home';
-  static String searchHero = '/searchHero';
+  static String searchgeneral = '/searchgeneral';
 
   static void configureRoutes(Router router) {
     router.notFoundHandler = new Handler(
@@ -17,6 +17,6 @@ class Routes {
     
     router.define(root, handler: splashHandler);
     router.define(home, handler: homeHandler);
-    router.define(searchHero, handler: searchHeroHandle);
+    router.define(searchgeneral, handler: searchgeneralHandle);
   }
 }

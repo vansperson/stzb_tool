@@ -1,4 +1,4 @@
-enum HeroPositionEnum {
+enum GeneralPositionEnum {
   camp,    // 大营
   central, // 中军
   forward, // 前锋

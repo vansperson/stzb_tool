@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:stzb_tool/models/cast/hero_config_model.dart';
-import 'package:stzb_tool/models/cast/hero_skills_model.dart';
+import 'package:stzb_tool/models/squads/squad_item_model.dart';
+import 'package:stzb_tool/models/squads/squad_skill_model.dart';
 import 'package:stzb_tool/routers/navigator_util.dart';
 import 'package:stzb_tool/util/enum.dart';
 import 'package:stzb_tool/util/index.dart';
 
-class HeroConfigWiget extends StatefulWidget {
-  final HeroPositionEnum heroPosition;
-  final HeroConfigModel heroConfig;
+class SquadItemWidget extends StatefulWidget {
+  final GeneralPositionEnum generalPosition;
+  final SquadItemModel squadItem;
 
-  HeroConfigWiget(this.heroPosition, {this.heroConfig});
+  SquadItemWidget(this.generalPosition, {this.squadItem});
 
   @override
-  _HeroConfigWigetState createState() => _HeroConfigWigetState();
+  _SquadItemWidgetState createState() => _SquadItemWidgetState();
 }
 
-class _HeroConfigWigetState extends State<HeroConfigWiget> {
+class _SquadItemWidgetState extends State<SquadItemWidget> {
   List<String> _positionDesc = ['大营', '中军', '前锋'];
   
   @override
@@ -30,16 +30,16 @@ class _HeroConfigWigetState extends State<HeroConfigWiget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          _renderHero(),
-          AddMethodWiget(SkillPositonEnum.masterSkill, heroSkill: widget.heroConfig?.masterSkill),
-          AddMethodWiget(SkillPositonEnum.secondSkill, heroSkill: widget.heroConfig?.secondSkill),
-          AddMethodWiget(SkillPositonEnum.thirdlySkill, heroSkill: widget.heroConfig?.thirdlySkill)
+          _renderGeneral(),
+          AddMethodWiget(SkillPositonEnum.masterSkill, generalSkill: widget.squadItem?.masterSkill),
+          AddMethodWiget(SkillPositonEnum.secondSkill, generalSkill: widget.squadItem?.secondSkill),
+          AddMethodWiget(SkillPositonEnum.thirdlySkill, generalSkill: widget.squadItem?.thirdlySkill)
         ],
       ),
     );
   }
 
-  Widget _renderHero() {
+  Widget _renderGeneral() {
     return Container(
       width: 94.0,
       height: 147.0,
@@ -50,8 +50,8 @@ class _HeroConfigWigetState extends State<HeroConfigWiget> {
       ),
       child: InkWell(
         onTap: () {
-          if(widget.heroConfig == null) {
-            NavigatorUtil.goPage(context, '/searchHero');
+          if(widget.squadItem == null) {
+            NavigatorUtil.gogeneralSelectPage(context, widget.generalPosition);
           } else {
             print('查看详情');
           }
@@ -62,7 +62,7 @@ class _HeroConfigWigetState extends State<HeroConfigWiget> {
               alignment: Alignment.center,
               height: 45.0,
               child: Text(
-                _positionDesc[widget.heroPosition.index],
+                _positionDesc[widget.generalPosition.index],
                 style: TextStyle(fontSize: 15.0, color: Color(0xff1aa1f3)),
               ),
             ),
@@ -70,7 +70,7 @@ class _HeroConfigWigetState extends State<HeroConfigWiget> {
               width: 75.0,
               height: 75.0,
               alignment: Alignment.topCenter,
-              child: widget.heroConfig == null ? Container(
+              child: widget.squadItem == null ? Container(
                 margin: const EdgeInsets.only(top: 10.0),
                 width: 28.0,
                 height: 28.0,
@@ -86,7 +86,7 @@ class _HeroConfigWigetState extends State<HeroConfigWiget> {
                       width: 65.0,
                       height: 65.0,
                       child: Image.network(
-                        '${Utils.baseAvatarUrl}${widget.heroConfig.avatarId}.jpg',
+                        '${Utils.baseAvatarUrl}${widget.squadItem.avatarId}.jpg',
                       ),
                     )
                   ),
@@ -105,10 +105,10 @@ class _HeroConfigWigetState extends State<HeroConfigWiget> {
             Container(
               alignment: Alignment.center,
               child: Text(
-                widget.heroConfig == null ? '点击添加武将' : widget.heroConfig.name,
+                widget.squadItem == null ? '点击添加武将' : widget.squadItem.name,
                 style: TextStyle(
                   fontSize: 12.0,
-                  color: widget.heroConfig == null ? Color(0xffa6b2be) : Color(0xff131519)
+                  color: widget.squadItem == null ? Color(0xffa6b2be) : Color(0xff131519)
                 ),
               ),
             )
@@ -121,8 +121,8 @@ class _HeroConfigWigetState extends State<HeroConfigWiget> {
 
 class AddMethodWiget extends StatelessWidget {
   final SkillPositonEnum skillPosition;
-  final HeroSkillsModel heroSkill;
-  AddMethodWiget(this.skillPosition, {this.heroSkill});
+  final SquadSkillModel generalSkill;
+  AddMethodWiget(this.skillPosition, {this.generalSkill});
   
   @override
   Widget build(BuildContext context) {
@@ -140,7 +140,7 @@ class AddMethodWiget extends StatelessWidget {
                 border: Border.all(width: 1.0, color: Color(0xffccd7dd)
               )
             ),
-            child: heroSkill == null ? Container(
+            child: generalSkill == null ? Container(
               width: 28.0,
               height: 28.0,
               child: Image.asset('lib/assets/images/add.png'),
@@ -155,7 +155,7 @@ class AddMethodWiget extends StatelessWidget {
                     width: 65.0,
                     height: 65.0,
                     child: Image.network(
-                      '${Utils.baseSkillUrl}${heroSkill.skillId}.png',
+                      '${Utils.baseSkillUrl}${generalSkill.skillId}.png',
                     )
                   )
                 ),
@@ -175,7 +175,7 @@ class AddMethodWiget extends StatelessWidget {
             alignment: Alignment.center,
             margin: const EdgeInsets.only(top: 16.0),
             child: Text(
-              heroSkill == null ? _postionDesc[skillPosition.index] : heroSkill.name,
+              generalSkill == null ? _postionDesc[skillPosition.index] : generalSkill.name,
               style: TextStyle(fontSize: 12.0, color: Color(0xffa6b2be)),
             ),
           )

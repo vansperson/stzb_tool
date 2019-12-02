@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:stzb_tool/models/filtrate/filtrate_hero_model.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:stzb_tool/models/filtrate/general_filtrate_model.dart';
+import 'package:stzb_tool/models/filtrate/general_filtrate_option_model.dart';
+import 'package:stzb_tool/redux/app_state.dart';
+import 'package:stzb_tool/redux/squads_reducer.dart';
 import 'dart:convert';
 
 import 'package:stzb_tool/widgets/drop_select_widget.dart';
@@ -8,16 +12,20 @@ import 'package:stzb_tool/widgets/search_bar_widget.dart';
 import 'package:stzb_tool/widgets/search_list_widget.dart';
 import 'package:stzb_tool/util/filtrate.dart';
 
-class SearchHeroPage extends StatefulWidget {
+class SearchGeneralPage extends StatefulWidget {
+  final int position;
+
+  SearchGeneralPage({this.position});
+
   @override
-  _SearchHeroPageState createState() => _SearchHeroPageState();
+  _SearchGeneralState createState() => _SearchGeneralState();
 }
 
-class _SearchHeroPageState extends State<SearchHeroPage> {
+class _SearchGeneralState extends State<SearchGeneralPage> {
   bool _showSelectOptions = false;
   bool _showMask = false;
   double _maskTopPosition = 0.0;
-  FiltrateHeroModel _currentFiltrateHero;
+  GeneralFiltrateModel _currentGeneral;
   String _keyWord = '';
 
   Map<String, dynamic> _filtrateData = {
@@ -29,6 +37,7 @@ class _SearchHeroPageState extends State<SearchHeroPage> {
 
   @override
   void initState() {
+    print(widget.position);
     super.initState();
   }
 
@@ -55,7 +64,6 @@ class _SearchHeroPageState extends State<SearchHeroPage> {
                       onChange: (String keyword) {
                         setState(() {
                           _keyWord = keyword;
-                          print(_keyWord);
                         });
                       },
                       listenFocus: (bool focus) {
@@ -80,17 +88,17 @@ class _SearchHeroPageState extends State<SearchHeroPage> {
                         color: Colors.white,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: filtrateHero.map((item) {
+                          children: filtrategeneral.map((item) {
                             return Expanded(
                               child: InkWell(
                                 onTap: () {
                                   setState(() {
-                                    if(!_showSelectOptions || (_currentFiltrateHero?.key == item.key && _showSelectOptions)) {
+                                    if(!_showSelectOptions || (_currentGeneral?.key == item.key && _showSelectOptions)) {
                                       _showSelectOptions = !_showSelectOptions;
                                       _maskTopPosition = 99.0;
                                       _showMask = _showSelectOptions;
                                     }
-                                    _currentFiltrateHero = filtrateHero.singleWhere((filtrate) => filtrate.key == item.key);
+                                    _currentGeneral = filtrategeneral.singleWhere((filtrate) => filtrate.key == item.key);
                                   });
                                 },
                                 child: DropSelectWidget(name: _filtrateData[item.key]['label'], hasDrop: false),
@@ -108,19 +116,18 @@ class _SearchHeroPageState extends State<SearchHeroPage> {
                           borderRadius: BorderRadius.circular(6.0)
                         ),
                         child: FutureBuilder(
-                          future: DefaultAssetBundle.of(context).loadString('lib/assets/utf8/g10_all_chinese.json'),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
                               return Container();
                             }
-                            List<dynamic> heros = json.decode(snapshot.data.toString());
-                            var filtrateHero;
+                            List<dynamic> generals = json.decode(snapshot.data.toString());
+                            var filtrategeneral;
                             if(_keyWord.isNotEmpty) {
-                              filtrateHero = heros.where((item) { 
+                              filtrategeneral = generals.where((item) { 
                                 return item['name'].contains(_keyWord);
                               }).toList();
                             } else {
-                              filtrateHero = heros.where((item) {
+                              filtrategeneral = generals.where((item) {
                                 return 
                                   (_filtrateData['quality']['value'].isEmpty || _filtrateData['quality']['value'] == item['quality']) &&
                                   (_filtrateData['contory']['value'].isEmpty || _filtrateData['contory']['value'] == item['contory']) &&
@@ -129,7 +136,7 @@ class _SearchHeroPageState extends State<SearchHeroPage> {
                                 ;
                               }).toList();
                             }
-                            if(filtrateHero.isEmpty) {
+                            if(filtrategeneral.isEmpty) {
                               return Container(
                                 alignment: Alignment.center,
                                 height: 34.0,
@@ -139,7 +146,12 @@ class _SearchHeroPageState extends State<SearchHeroPage> {
                                 ))
                               );
                             } else {
-                              return SearchListWidget(list: filtrateHero);
+                              return SearchListWidget(
+                                list: filtrategeneral,
+                                onSelect: (id) {
+                                  StoreProvider.of<AppState>(context).dispatch(AddGeneral(id: id, position: widget.position));
+                                }
+                              );
                             }
                           },
                         )
@@ -180,11 +192,11 @@ class _SearchHeroPageState extends State<SearchHeroPage> {
                   )
                 ),
                 child: SelectOptionsWidget(
-                  options: _currentFiltrateHero.options,
-                  onChange: (FiltrateHeroOptionModel option) {
+                  options: _currentGeneral.options,
+                  onChange: (GeneralFiltrateOptionModel option) {
                     setState(() {
-                      _filtrateData[_currentFiltrateHero.key]['value'] = option.value;
-                      _filtrateData[_currentFiltrateHero.key]['label'] = option.label;
+                      _filtrateData[_currentGeneral.key]['value'] = option.value;
+                      _filtrateData[_currentGeneral.key]['label'] = option.label;
                       _showSelectOptions = false;
                       _showMask = false;
                     });

@@ -1,6 +1,7 @@
-import 'package:stzb_tool/models/filtrate/filtrate_hero_model.dart';
 
-var heroList = [
+import 'package:stzb_tool/models/filtrate/general_filtrate_model.dart';
+
+var generalList = [
   {
     'key': 'quality',
     'label': '星级',
@@ -50,7 +51,7 @@ var heroList = [
   }
 ];
 
-List<FiltrateHeroModel> filtrateHero = heroList.map((f) {
-  return FiltrateHeroModel.fromJson(f);
+List<GeneralFiltrateModel> filtrategeneral = generalList.map((f) {
+  return GeneralFiltrateModel.fromJson(f);
 }).toList();
 
