@@ -26,7 +26,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> with SingleTickerProv
   
   @override
   void initState() {
-    _animationController = new AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _animationController = new AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     _animationOpacity = new Tween(begin: 0.0, end: 1.0).animate(_animationController);
 
     _controller = new TextEditingController();
@@ -82,7 +82,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> with SingleTickerProv
           AnimatedContainer(
             height: 35.0,
             margin: EdgeInsets.only(right: _hasFocus ? 80.0 : 0),
-            duration: Duration(milliseconds: 500),
+            duration: Duration(milliseconds: 300),
             curve: Curves.fastOutSlowIn,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),

@@ -13,7 +13,8 @@ class SearchHeroPage extends StatefulWidget {
 
 class _SearchHeroPageState extends State<SearchHeroPage> {
   bool _showSelectOptions = false;
-
+  bool _showMask = false;
+  double _maskTopPosition = 0.0;
 
   @override
   void initState() {
@@ -29,28 +30,34 @@ class _SearchHeroPageState extends State<SearchHeroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffe6edf1),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
+      body: Stack(
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                SearchBarWidget(
-                  onChange: (String keyword) {
-                    print(keyword);
-                  },
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    SearchBarWidget(
+                      onChange: (String keyword) {
+                        print(keyword);
+                      },
+                      listenFocus: (bool focus) {
+                        setState(() {
+                          _maskTopPosition = 55.0;
+                          _showMask = focus;
+                          _showSelectOptions = false;
+                        });
+                      },
+                    )
+                  ],
                 )
-              ],
-            )
-          ),
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Stack(
-                  overflow: Overflow.visible,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     Container(
                       height: 44.0,
@@ -63,6 +70,8 @@ class _SearchHeroPageState extends State<SearchHeroPage> {
                               onTap: () {
                                 setState(() {
                                   _showSelectOptions = !_showSelectOptions;
+                                  _maskTopPosition = 99.0;
+                                  _showMask = _showSelectOptions;
                                 });
                               },
                               child: DropSelectWidget(name: '星级', hasDrop: false),
@@ -86,50 +95,66 @@ class _SearchHeroPageState extends State<SearchHeroPage> {
                         ],
                       ),
                     ),
-                    Positioned(
-                      top: 44.0,
-                      left: 0.0,
-                      width: MediaQuery.of(context).size.width,
-                      child: _showSelectOptions ? Container(
-                        padding: const EdgeInsets.all(12.0),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.all(10.0),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          border: Border(
-                            top: BorderSide(
-                              width: 1.0,
-                              color: Color(0xffccd7dd)
-                            )
-                          )
+                          borderRadius: BorderRadius.circular(6.0)
                         ),
-                        child: SelectOptionsWidget()
-                      ) : Container() 
+                        child: FutureBuilder(
+                          future: DefaultAssetBundle.of(context).loadString('lib/assets/utf8/g10_all_chinese.json'),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Container();
+                            }
+                            List<dynamic> heros = json.decode(snapshot.data.toString());
+                            // return SearchListWidget(list: heros);
+                            return Container();
+                          },
+                        )
+                      )
                     )
                   ],
-                ),
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6.0)
-                    ),
-                    child: FutureBuilder(
-                      future: DefaultAssetBundle.of(context).loadString('lib/assets/utf8/g10_all_chinese.json'),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Container();
-                        }
-                        List<dynamic> heros = json.decode(snapshot.data.toString());
-                        return SearchListWidget(list: heros);
-                      },
+                )
+              )
+            ],
+          ),
+          Positioned(
+            top: _maskTopPosition + MediaQuery.of(context).padding.top,
+            left: 0.0, right: 0.0,
+            child: AnimatedOpacity(
+              opacity: _showMask  ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 300),
+              child: _showMask ? Container(
+                height: MediaQuery.of(context).size.height - (45.0 + MediaQuery.of(context).padding.top),
+                color: Color.fromRGBO(0, 0, 0, 0.4),
+              ) : Container()
+            )
+          ),
+          Positioned(
+            top: 99.0 + MediaQuery.of(context).padding.top,
+            left: 0.0, right: 0.0,
+            child: AnimatedOpacity(
+              opacity: _showSelectOptions ? 1.0 : 0.0,
+              duration: Duration(milliseconds: 300),
+              child: _showSelectOptions ? Container(
+                padding: const EdgeInsets.all(12.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                    top: BorderSide(
+                      width: 1.0,
+                      color: Color(0xffccd7dd)
                     )
                   )
-                )
-              ],
-            )
+                ),
+                child: SelectOptionsWidget()
+              ) : Container()
+            ) 
           )
         ],
-      ),
+      )
     );
   }
 }
