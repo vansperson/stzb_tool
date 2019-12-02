@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stzb_tool/models/squads/method_model.dart';
 import 'package:stzb_tool/models/squads/squad_item_model.dart';
-import 'package:stzb_tool/models/squads/squad_skill_model.dart';
 import 'package:stzb_tool/routers/navigator_util.dart';
 import 'package:stzb_tool/util/enum.dart';
 import 'package:stzb_tool/util/index.dart';
@@ -31,9 +31,9 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           _renderGeneral(),
-          AddMethodWiget(SkillPositonEnum.masterSkill, generalSkill: widget.squadItem?.masterSkill),
-          AddMethodWiget(SkillPositonEnum.secondSkill, generalSkill: widget.squadItem?.secondSkill),
-          AddMethodWiget(SkillPositonEnum.thirdlySkill, generalSkill: widget.squadItem?.thirdlySkill)
+          AddMethodWiget(MethodPositonEnum.method1, method: widget.squadItem?.method1),
+          AddMethodWiget(MethodPositonEnum.method2, method: widget.squadItem?.method2),
+          AddMethodWiget(MethodPositonEnum.method3, method: widget.squadItem?.method3)
         ],
       ),
     );
@@ -86,7 +86,7 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
                       width: 65.0,
                       height: 65.0,
                       child: Image.network(
-                        '${Utils.baseAvatarUrl}${widget.squadItem.avatarId}.jpg',
+                        '${Utils.baseAvatarUrl}${widget.squadItem.generalDetail.id}.jpg',
                       ),
                     )
                   ),
@@ -105,7 +105,7 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
             Container(
               alignment: Alignment.center,
               child: Text(
-                widget.squadItem == null ? '点击添加武将' : widget.squadItem.name,
+                widget.squadItem == null ? '点击添加武将' : widget.squadItem.generalDetail.name,
                 style: TextStyle(
                   fontSize: 12.0,
                   color: widget.squadItem == null ? Color(0xffa6b2be) : Color(0xff131519)
@@ -120,9 +120,9 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
 }
 
 class AddMethodWiget extends StatelessWidget {
-  final SkillPositonEnum skillPosition;
-  final SquadSkillModel generalSkill;
-  AddMethodWiget(this.skillPosition, {this.generalSkill});
+  final MethodPositonEnum methodPosition;
+  final MethodModel method;
+  AddMethodWiget(this.methodPosition, {this.method});
   
   @override
   Widget build(BuildContext context) {
@@ -140,7 +140,7 @@ class AddMethodWiget extends StatelessWidget {
                 border: Border.all(width: 1.0, color: Color(0xffccd7dd)
               )
             ),
-            child: generalSkill == null ? Container(
+            child: method == null ? Container(
               width: 28.0,
               height: 28.0,
               child: Image.asset('lib/assets/images/add.png'),
@@ -155,7 +155,7 @@ class AddMethodWiget extends StatelessWidget {
                     width: 65.0,
                     height: 65.0,
                     child: Image.network(
-                      '${Utils.baseSkillUrl}${generalSkill.skillId}.png',
+                      '${Utils.baseSkillUrl}${method.methodId}.png',
                     )
                   )
                 ),
@@ -175,7 +175,7 @@ class AddMethodWiget extends StatelessWidget {
             alignment: Alignment.center,
             margin: const EdgeInsets.only(top: 16.0),
             child: Text(
-              generalSkill == null ? _postionDesc[skillPosition.index] : generalSkill.name,
+              method == null ? _postionDesc[methodPosition.index] : method.methodName,
               style: TextStyle(fontSize: 12.0, color: Color(0xffa6b2be)),
             ),
           )

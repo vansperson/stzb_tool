@@ -4,8 +4,8 @@ enum GeneralPositionEnum {
   forward, // 前锋
 }
 
-enum SkillPositonEnum {
-  masterSkill, // 战法一
-  secondSkill, // 战法二
-  thirdlySkill // 战法三
+enum MethodPositonEnum {
+  method1, // 战法一
+  method2, // 战法二
+  method3  // 战法三
 }

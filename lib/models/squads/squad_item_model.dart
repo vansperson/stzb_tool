@@ -1,24 +1,21 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:stzb_tool/models/squads/squad_skill_model.dart';
+import 'package:stzb_tool/models/global/general_detail_model.dart';
+import 'package:stzb_tool/models/squads/method_model.dart';
 
 part 'squad_item_model.g.dart';
 
 @JsonSerializable()
 class SquadItemModel {
-  String name;
-  String avatarId;
-  double cost;
-  SquadSkillModel masterSkill;
-  SquadSkillModel secondSkill;
-  SquadSkillModel thirdlySkill;
+  GeneralDetailModel generalDetail;
+  MethodModel method1;
+  MethodModel method2;
+  MethodModel method3;
 
   SquadItemModel(
-    this.name,
-    this.avatarId,
-    this.cost,
-    this.masterSkill,
-    this.secondSkill,
-    this.thirdlySkill
+    this.generalDetail,
+    this.method1,
+    this.method2,
+    this.method3
   );
 
   factory SquadItemModel.fromJson(Map<String, dynamic> json) => _$SquadItemModelFromJson(json);
