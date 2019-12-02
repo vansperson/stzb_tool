@@ -63,8 +63,11 @@ class _SearchBarWidgetState extends State<SearchBarWidget> with SingleTickerProv
           InkWell(
             onTap: () {
               setState(() {
+                _keyword = '';
                 _animationController.reverse();
+                _controller.clear();
                 _focusNode.unfocus();
+                widget.onChange('');
               });
             },
             child: FadeTransition(
@@ -123,7 +126,9 @@ class _SearchBarWidgetState extends State<SearchBarWidget> with SingleTickerProv
                   offstage: _keyword.isEmpty,
                   child: InkWell(
                     onTap: () {
+                      _keyword = '';
                       _controller.clear();
+                      widget.onChange('');
                     },
                     child: Container(
                       alignment: Alignment.center,
