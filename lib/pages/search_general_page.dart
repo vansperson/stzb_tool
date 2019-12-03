@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:stzb_tool/models/filtrate/general_filtrate_model.dart';
-import 'package:stzb_tool/models/filtrate/general_filtrate_option_model.dart';
+import 'package:stzb_tool/models/general/general_detail_model.dart';
 import 'package:stzb_tool/redux/app_state.dart';
 import 'package:stzb_tool/redux/squads_reducer.dart';
-import 'dart:convert';
+
+import 'package:stzb_tool/models/filtrate/general_filtrate_model.dart';
+import 'package:stzb_tool/models/filtrate/general_filtrate_option_model.dart';
+import 'package:stzb_tool/util/global.dart';
 
 import 'package:stzb_tool/widgets/drop_select_widget.dart';
 import 'package:stzb_tool/widgets/search_bar_widget.dart';
 import 'package:stzb_tool/widgets/search_list_widget.dart';
-import 'package:stzb_tool/util/filtrate.dart';
 
 class SearchGeneralPage extends StatefulWidget {
   final int position;
@@ -22,28 +23,21 @@ class SearchGeneralPage extends StatefulWidget {
 }
 
 class _SearchGeneralState extends State<SearchGeneralPage> {
+  double _maskTopPosition = 0.0;
   bool _showSelectOptions = false;
   bool _showMask = false;
-  double _maskTopPosition = 0.0;
+
   GeneralFiltrateModel _currentGeneral;
   String _keyWord = '';
 
-  Map<String, dynamic> _filtrateData = {
-    'quality': {'label': '星级', 'value': '' },
-    'contory': {'label': '阵营', 'value': '' },
-    'type': {'label': '兵种', 'value': '' },
-    'cost': {'label': 'Cost', 'value': '' }
-  };
+  String _quality = '';
+  String _contory = '';
+  String _type = '';
+  String _cost = '';
 
   @override
   void initState() {
-    print(widget.position);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -88,7 +82,7 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
                         color: Colors.white,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: filtrategeneral.map((item) {
+                          children: GlobalInfo.generalFiltrate.map((item) {
                             return Expanded(
                               child: InkWell(
                                 onTap: () {
@@ -98,10 +92,10 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
                                       _maskTopPosition = 99.0;
                                       _showMask = _showSelectOptions;
                                     }
-                                    _currentGeneral = filtrategeneral.singleWhere((filtrate) => filtrate.key == item.key);
+                                    _currentGeneral = GlobalInfo.generalFiltrate.singleWhere((f) => f.key == item.key);
                                   });
                                 },
-                                child: DropSelectWidget(name: _filtrateData[item.key]['label'], hasDrop: false),
+                                child: DropSelectWidget(name: item.label, hasDrop: false),
                               )
                             );
                           }).toList()
@@ -115,46 +109,7 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(6.0)
                         ),
-                        child: FutureBuilder(
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return Container();
-                            }
-                            List<dynamic> generals = json.decode(snapshot.data.toString());
-                            var filtrategeneral;
-                            if(_keyWord.isNotEmpty) {
-                              filtrategeneral = generals.where((item) { 
-                                return item['name'].contains(_keyWord);
-                              }).toList();
-                            } else {
-                              filtrategeneral = generals.where((item) {
-                                return 
-                                  (_filtrateData['quality']['value'].isEmpty || _filtrateData['quality']['value'] == item['quality']) &&
-                                  (_filtrateData['contory']['value'].isEmpty || _filtrateData['contory']['value'] == item['contory']) &&
-                                  (_filtrateData['type']['value'].isEmpty || _filtrateData['type']['value'] == item['type']) &&
-                                  (_filtrateData['cost']['value'].isEmpty || _filtrateData['cost']['value'] == item['cost'].toString()) 
-                                ;
-                              }).toList();
-                            }
-                            if(filtrategeneral.isEmpty) {
-                              return Container(
-                                alignment: Alignment.center,
-                                height: 34.0,
-                                child: Text('没有符合条件的角色', style: TextStyle(
-                                  color: Color(0xff131519),
-                                  fontSize: 15.0
-                                ))
-                              );
-                            } else {
-                              return SearchListWidget(
-                                list: filtrategeneral,
-                                onSelect: (id) {
-                                  StoreProvider.of<AppState>(context).dispatch(AddGeneral(id: id, position: widget.position));
-                                }
-                              );
-                            }
-                          },
-                        )
+                        child: _renderResult()
                       )
                     )
                   ],
@@ -195,8 +150,6 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
                   options: _currentGeneral.options,
                   onChange: (GeneralFiltrateOptionModel option) {
                     setState(() {
-                      _filtrateData[_currentGeneral.key]['value'] = option.value;
-                      _filtrateData[_currentGeneral.key]['label'] = option.label;
                       _showSelectOptions = false;
                       _showMask = false;
                     });
@@ -207,6 +160,31 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
           )
         ],
       )
+    );
+  }
+
+  Widget _renderResult() {
+    List<GeneralDetailModel> result = new List();
+    if(_keyWord.isNotEmpty) {
+      result.addAll(GlobalInfo.generals.where((f) => f.name.contains(_keyWord)).toList());
+    } else {
+      result.addAll(GlobalInfo.generals.where((f) => (
+        (_quality.isEmpty || f.quality == _quality) && 
+        (_contory.isEmpty || f.contory == _contory) && 
+        (_type.isEmpty || f.type == _type) && 
+        (_cost.isEmpty || f.cost.toString() == _cost)
+      )).toList());
+    }
+
+    return result.isEmpty ? Container(
+      alignment: Alignment.center,
+      height: 34.0,
+      child: Text('没有符合条件的角色', style: TextStyle(color: Color(0xff131519), fontSize: 15.0))
+    ) : SearchListWidget(
+      list: result,
+      onSelect: (id) {
+        StoreProvider.of<AppState>(context).dispatch(AddGeneral(id: id, position: widget.position));
+      }
     );
   }
 }

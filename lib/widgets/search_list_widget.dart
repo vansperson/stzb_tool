@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:stzb_tool/models/general/general_detail_model.dart';
 import 'package:stzb_tool/util/index.dart';
 
 class SearchListWidget extends StatefulWidget {
-  final List<dynamic> list;
+  final List<GeneralDetailModel> list;
   final void Function(int id) onSelect;
   SearchListWidget({
     @required this.list,
@@ -24,7 +25,7 @@ class _SearchListWidgetState extends State<SearchListWidget> {
       ),
       itemCount: widget.list.length,
       itemBuilder: (BuildContext context, int index) {
-        var generalItem = widget.list[index];
+        GeneralDetailModel item = widget.list[index];
         return SizedBox(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -36,7 +37,7 @@ class _SearchListWidgetState extends State<SearchListWidget> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(6.0),
                       clipBehavior: Clip.antiAlias,
-                      child: Image.network('${Utils.baseAvatarUrl}${generalItem['id']}.jpg'),
+                      child: Image.network('${Utils.baseAvatarUrl}${item.id}.jpg'),
                     ),
                   ),
                   Positioned(
@@ -47,7 +48,7 @@ class _SearchListWidgetState extends State<SearchListWidget> {
                       alignment: Alignment.center,
                       color: Color.fromRGBO(0, 0, 0, 0.7),
                       height: 28.0,
-                      child: Text(generalItem['name'], style: TextStyle(
+                      child: Text(item.name, style: TextStyle(
                         fontSize: 15.0,
                         color: Colors.white
                       ))
@@ -66,7 +67,7 @@ class _SearchListWidgetState extends State<SearchListWidget> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    widget.onSelect(generalItem['id']);
+                    widget.onSelect(item.id);
                   },
                   child: Text('选择', style: TextStyle(
                     fontSize: 15.0,

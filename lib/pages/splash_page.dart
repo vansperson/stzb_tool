@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stzb_tool/models/filtrate/general_filtrate_model.dart';
 import 'package:stzb_tool/models/general/general_detail_model.dart';
 import 'package:stzb_tool/routers/navigator_util.dart';
 import 'package:stzb_tool/util/global.dart';
@@ -32,13 +33,22 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
         GlobalInfo.generals = (json.decode(value) as List)?.map((f) =>
           f == null ? null : GeneralDetailModel.fromJson(f as Map<String, dynamic>)
         )?.toList();
-        _loadAssets += 1;
+        _checkLoadAssets();
+      }
+    });
+
+    rootBundle.loadString('lib/assets/filtrate/general.json').then((value) {
+      if(value.isNotEmpty) {
+        GlobalInfo.generalFiltrate = (json.decode(value) as List)?.map((f) =>
+          f == null ? null : GeneralFiltrateModel.fromJson(f as Map<String, dynamic>)
+        )?.toList();
         _checkLoadAssets();
       }
     });
   }
 
   _checkLoadAssets() {
+    _loadAssets += 1;
     if(_loadAssets == _assets) {
       NavigatorUtil.goHomePage(context);
     }
