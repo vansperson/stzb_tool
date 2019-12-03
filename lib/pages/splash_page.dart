@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:stzb_tool/models/filtrate/general_filtrate_model.dart';
 import 'package:stzb_tool/models/general/general_detail_model.dart';
+import 'package:stzb_tool/models/general/method_item_model.dart';
 import 'package:stzb_tool/routers/navigator_util.dart';
 import 'package:stzb_tool/util/global.dart';
 
@@ -32,6 +33,15 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
       if(value.isNotEmpty) {
         GlobalInfo.generals = (json.decode(value) as List)?.map((f) =>
           f == null ? null : GeneralDetailModel.fromJson(f as Map<String, dynamic>)
+        )?.toList();
+        _checkLoadAssets();
+      }
+    });
+
+    rootBundle.loadString('lib/assets/utf8/jineng_list_chinese.json').then((value) {
+      if(value.isNotEmpty) {
+        GlobalInfo.methodItemList = (json.decode(value) as List)?.map((f) =>
+          f == null ? null : MethodItemModel.fromJson(f as Map<String, dynamic>)
         )?.toList();
         _checkLoadAssets();
       }

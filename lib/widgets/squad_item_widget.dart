@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stzb_tool/models/general/general_detail_model.dart';
+import 'package:stzb_tool/models/general/method_item_model.dart';
 import 'package:stzb_tool/routers/navigator_util.dart';
 import 'package:stzb_tool/util/enum.dart';
+import 'package:stzb_tool/util/global.dart';
 import 'package:stzb_tool/util/index.dart';
 
 class SquadItemWidget extends StatefulWidget {
@@ -59,37 +61,38 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
         borderRadius: BorderRadius.circular(5.0),
         border: Border.all(width: 0.5, color: Color(0xffccd7dd)),
       ),
-      child: InkWell(
-        onTap: () {
-          if(widget.squadItem == null) {
-            NavigatorUtil.gogeneralSelectPage(context, widget.generalSite);
-          } else {
-            print('查看详情');
-          }
-        },
-        child: Column(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              height: 45.0,
-              child: Text(
-                _siteDesc[widget.generalSite.index],
-                style: TextStyle(fontSize: 15.0, color: Color(0xff1aa1f3)),
-              ),
+      child: Column(
+        children: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            height: 45.0,
+            child: Text(
+              _siteDesc[widget.generalSite.index],
+              style: TextStyle(fontSize: 15.0, color: Color(0xff1aa1f3)),
             ),
-            Container(
-              width: 75.0,
-              height: 75.0,
-              alignment: Alignment.topCenter,
-              child: widget.squadItem == null ? Container(
+          ),
+          Container(
+            width: 75.0,
+            height: 75.0,
+            alignment: Alignment.topCenter,
+            child: widget.squadItem == null ? InkWell(
+              onTap: () {
+                NavigatorUtil.goGeneralSelectPage(context, widget.generalSite);
+              },
+              child: Container(
                 margin: const EdgeInsets.only(top: 10.0),
                 width: 28.0,
                 height: 28.0,
                 child: Image.asset('lib/assets/images/add.png'),
-              ) : Stack(
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  PhysicalModel(
+              )
+            ) : Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    print('甚为烦躁');
+                  },
+                  child: PhysicalModel(
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(6.0),
                     clipBehavior: Clip.antiAlias,
@@ -100,32 +103,37 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
                         '${Utils.baseAvatarUrl}${widget.squadItem.id}.jpg',
                       ),
                     )
-                  ),
-                  Positioned(
-                    top: -11.0,
-                    right: -11.0,
+                  )
+                ),
+                Positioned(
+                  top: -11.0,
+                  right: -11.0,
+                  child: InkWell(
+                    onTap: () {
+                      print('烦躁莫名');
+                    },
                     child: Container(
                       width: 22.0,
                       height: 22.0,
                       child: Image.asset('lib/assets/images/delete.png')
                     )
-                  )
-                ],
-              )
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: Text(
-                widget.squadItem == null ? '点击添加武将' : widget.squadItem.name,
-                style: TextStyle(
-                  fontSize: 12.0,
-                  color: widget.squadItem == null ? Color(0xffa6b2be) : Color(0xff131519)
-                ),
-              ),
+                  ) 
+                )
+              ],
             )
-          ],
-        )
-      ) 
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: Text(
+              widget.squadItem == null ? '点击添加武将' : widget.squadItem.name,
+              style: TextStyle(
+                fontSize: 12.0,
+                color: widget.squadItem == null ? Color(0xffa6b2be) : Color(0xff131519)
+              ),
+            ),
+          )
+        ],
+      )
     );
   }
 }
@@ -143,7 +151,6 @@ class AddMethodWiget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> _postionDesc = ['战法一', '战法二', '战法三'];
-    String baseUrl = Utils.baseSkillUrl;
     return Container(
       margin: const EdgeInsets.only(top: 40.0),
       child: Column(
@@ -157,36 +164,7 @@ class AddMethodWiget extends StatelessWidget {
                 border: Border.all(width: 1.0, color: Color(0xffccd7dd)
               )
             ),
-            child: methodId == null ? Container(
-              width: 28.0,
-              height: 28.0,
-              child: Image.asset('lib/assets/images/add.png'),
-            ) : Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                PhysicalModel(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(65.0),
-                  clipBehavior: Clip.antiAlias,
-                  child: Container(
-                    width: 65.0,
-                    height: 65.0,
-                    child: Image.network(
-                      '$baseUrl$methodId.png',
-                    )
-                  )
-                ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Container(
-                    width: 22.0,
-                    height: 22.0,
-                    child: Image.asset('lib/assets/images/delete.png')
-                  )
-                )
-              ]
-            )
+            child: _renderMethod()
           ),
           Container(
             alignment: Alignment.center,
@@ -199,5 +177,44 @@ class AddMethodWiget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _renderMethod() {
+    if(methodId == null) {
+      return Container(
+        width: 28.0,
+        height: 28.0,
+        child: Image.asset('lib/assets/images/add.png'),
+      );
+    } else {
+      MethodItemModel methodItem = GlobalInfo.methodItemList?.firstWhere((f) => f.id == methodId);
+      return Stack(
+        overflow: Overflow.visible,
+        children: <Widget>[
+          PhysicalModel(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(65.0),
+            clipBehavior: Clip.antiAlias,
+            child: Container(
+              width: 65.0,
+              height: 65.0,
+              child: Image.network('${Utils.baseMethodUrl}02.png')
+            )
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Offstage(
+              offstage: methodSite == MethodSiteEnum.method,
+              child: Container(
+                width: 22.0,
+                height: 22.0,
+                child: Image.asset('lib/assets/images/delete.png')
+              )
+            )
+          )
+        ]
+      );
+    }
   }
 }

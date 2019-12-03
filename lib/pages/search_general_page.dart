@@ -7,6 +7,7 @@ import 'package:stzb_tool/redux/squads_reducer.dart';
 
 import 'package:stzb_tool/models/filtrate/general_filtrate_model.dart';
 import 'package:stzb_tool/models/filtrate/general_filtrate_option_model.dart';
+import 'package:stzb_tool/routers/navigator_util.dart';
 import 'package:stzb_tool/util/global.dart';
 
 import 'package:stzb_tool/widgets/drop_select_widget.dart';
@@ -38,6 +39,11 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -180,8 +186,9 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
       child: Text('没有符合条件的角色', style: TextStyle(color: Color(0xff131519), fontSize: 15.0))
     ) : SearchListWidget(
       list: result,
-      onSelect: (id) {
-        StoreProvider.of<AppState>(context).dispatch(AddGeneral(id: id, site: widget.site));
+      onSelect: (general) {
+        StoreProvider.of<AppState>(context).dispatch(AddGeneral(general: general, site: widget.site));
+        NavigatorUtil.goBack(context);
       }
     );
   }

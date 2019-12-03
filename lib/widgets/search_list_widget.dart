@@ -4,7 +4,7 @@ import 'package:stzb_tool/util/index.dart';
 
 class SearchListWidget extends StatefulWidget {
   final List<GeneralDetailModel> list;
-  final void Function(int id) onSelect;
+  final void Function(GeneralDetailModel general) onSelect;
 
   SearchListWidget({
     @required this.list,
@@ -71,7 +71,7 @@ class _SearchListWidgetState extends State<SearchListWidget> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    widget.onSelect(item.id);
+                    widget.onSelect(item);
                   },
                   child: Text('选择', style: TextStyle(
                     fontSize: 15.0,
