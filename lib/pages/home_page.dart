@@ -27,9 +27,9 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, generalCast) {
                   return Column(
                     children: <Widget>[
-                      SquadItemWidget(GeneralPositionEnum.camp, squadItem: generalCast.camp),
-                      SquadItemWidget(GeneralPositionEnum.central, squadItem: generalCast.central),
-                      SquadItemWidget(GeneralPositionEnum.forward, squadItem: generalCast.forward)
+                      SquadItemWidget(GeneralSiteEnum.camp, squadItem: generalCast.camp),
+                      SquadItemWidget(GeneralSiteEnum.central, squadItem: generalCast.central),
+                      SquadItemWidget(GeneralSiteEnum.forward, squadItem: generalCast.forward)
                     ],
                   );
                 }

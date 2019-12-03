@@ -19,7 +19,7 @@ class NavigatorUtil {
   }
 
   /// 跳转到武将选择页
-  static void gogeneralSelectPage(BuildContext context, GeneralPositionEnum generalPosition ) {
-    Application.router.navigateTo(context, '${Routes.searchgeneral}?position=${generalPosition.index}');
+  static void gogeneralSelectPage(BuildContext context, GeneralSiteEnum generalSite ) {
+    Application.router.navigateTo(context, '${Routes.searchgeneral}?site=${generalSite.index}');
   }
 }

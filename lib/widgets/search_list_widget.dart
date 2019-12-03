@@ -5,6 +5,7 @@ import 'package:stzb_tool/util/index.dart';
 class SearchListWidget extends StatefulWidget {
   final List<GeneralDetailModel> list;
   final void Function(int id) onSelect;
+
   SearchListWidget({
     @required this.list,
     @required this.onSelect
@@ -21,7 +22,7 @@ class _SearchListWidgetState extends State<SearchListWidget> {
       padding: const EdgeInsets.all(12.0),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        childAspectRatio: 0.75
+        childAspectRatio: 0.7
       ),
       itemCount: widget.list.length,
       itemBuilder: (BuildContext context, int index) {
@@ -30,39 +31,42 @@ class _SearchListWidgetState extends State<SearchListWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  Container(
-                    child: PhysicalModel(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6.0),
-                      clipBehavior: Clip.antiAlias,
-                      child: Image.network('${Utils.baseAvatarUrl}${item.id}.jpg'),
-                    ),
+              Container(
+                alignment: Alignment.center,
+                width: 115.0,
+                height: 115.0,
+                child: PhysicalModel(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(6.0),
+                  clipBehavior: Clip.antiAlias,
+                  child: Stack(
+                    children: <Widget>[
+                      Image.network('${Utils.baseAvatarUrl}${item.id}.jpg'),
+                      Positioned(
+                        left: 0.0,
+                        right: 0.0,
+                        bottom: 0.0,
+                        child: Container(
+                          alignment: Alignment.center,
+                          color: Color.fromRGBO(0, 0, 0, 0.7),
+                          height: 28.0,
+                          child: Text(item.name, style: TextStyle(
+                            fontSize: 15.0,
+                            color: Colors.white
+                          ))
+                        ),
+                      )
+                    ],
                   ),
-                  Positioned(
-                    left: 0.0,
-                    right: 0.0,
-                    bottom: 0.0,
-                    child: Container(
-                      alignment: Alignment.center,
-                      color: Color.fromRGBO(0, 0, 0, 0.7),
-                      height: 28.0,
-                      child: Text(item.name, style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.white
-                      ))
-                    ),
-                  )
-                ],
+                ),
               ),
               Container(
                 alignment: Alignment.center,
                 height: 30.0,
                 width: 85.0,
-                margin: const EdgeInsets.only(top: 15.0),
+                margin: const EdgeInsets.only(top: 10.0),
                 decoration: BoxDecoration(
-                  border: Border.all(width: 0.5, color: Color(0xff3fa1f7)),
+                  border: Border.all(width: 1.0, color: Color(0xff3fa1f7)),
                   borderRadius: BorderRadius.circular(15.0)
                 ),
                 child: InkWell(

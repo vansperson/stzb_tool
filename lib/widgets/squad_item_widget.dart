@@ -5,17 +5,17 @@ import 'package:stzb_tool/util/enum.dart';
 import 'package:stzb_tool/util/index.dart';
 
 class SquadItemWidget extends StatefulWidget {
-  final GeneralPositionEnum generalPosition;
+  final GeneralSiteEnum generalSite;
   final GeneralDetailModel squadItem;
 
-  SquadItemWidget(this.generalPosition, {this.squadItem});
+  SquadItemWidget(this.generalSite, {this.squadItem});
 
   @override
   _SquadItemWidgetState createState() => _SquadItemWidgetState();
 }
 
 class _SquadItemWidgetState extends State<SquadItemWidget> {
-  List<String> _positionDesc = ['大营', '中军', '前锋'];
+  List<String> _siteDesc = ['大营', '中军', '前锋'];
   
   @override
   Widget build(BuildContext context) {
@@ -31,17 +31,17 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
         children: <Widget>[
           _renderGeneral(),
           AddMethodWiget(
-            MethodPositonEnum.method, 
+            MethodSiteEnum.method, 
             methodName: widget.squadItem?.methodName,
             methodId: widget.squadItem?.methodId,
           ),
           AddMethodWiget(
-            MethodPositonEnum.method2, 
+            MethodSiteEnum.method2, 
             methodName: widget.squadItem?.methodName2,
             methodId: widget.squadItem?.methodId2,
           ),
           AddMethodWiget(
-            MethodPositonEnum.method3, 
+            MethodSiteEnum.method3, 
             methodName: widget.squadItem?.methodName3,
             methodId: widget.squadItem?.methodId3,
           ),
@@ -62,7 +62,7 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
       child: InkWell(
         onTap: () {
           if(widget.squadItem == null) {
-            NavigatorUtil.gogeneralSelectPage(context, widget.generalPosition);
+            NavigatorUtil.gogeneralSelectPage(context, widget.generalSite);
           } else {
             print('查看详情');
           }
@@ -73,7 +73,7 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
               alignment: Alignment.center,
               height: 45.0,
               child: Text(
-                _positionDesc[widget.generalPosition.index],
+                _siteDesc[widget.generalSite.index],
                 style: TextStyle(fontSize: 15.0, color: Color(0xff1aa1f3)),
               ),
             ),
@@ -131,12 +131,12 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
 }
 
 class AddMethodWiget extends StatelessWidget {
-  final MethodPositonEnum methodPosition;
+  final MethodSiteEnum methodSite;
   final String methodName;
   final int methodId;
 
   AddMethodWiget(
-    this.methodPosition,
+    this.methodSite,
     { this.methodName, this.methodId}
   );
   
@@ -192,7 +192,7 @@ class AddMethodWiget extends StatelessWidget {
             alignment: Alignment.center,
             margin: const EdgeInsets.only(top: 16.0),
             child: Text(
-              methodName == null ? _postionDesc[methodPosition.index] : methodName,
+              methodName == null ? _postionDesc[methodSite.index] : methodName,
               style: TextStyle(fontSize: 12.0, color: Color(0xffa6b2be)),
             ),
           )

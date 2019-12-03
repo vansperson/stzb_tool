@@ -21,9 +21,9 @@ var homeHandler = new Handler(
 
 var searchgeneralHandle = new Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    String position = params['position']?.first;
+    String site = params['site']?.first;
     return new SearchGeneralPage(
-      position: ConvertUtils.string2int(position)
+      site: ConvertUtils.string2int(site)
     );
   }
 );

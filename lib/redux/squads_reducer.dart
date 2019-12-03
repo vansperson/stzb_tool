@@ -11,7 +11,7 @@ SquadsModel _addGeneral(SquadsModel squads, action) {
 
 class AddGeneral {
   final int id;
-  final int position;
+  final int site;
 
-  AddGeneral({this.id, this.position});
+  AddGeneral({this.id, this.site});
 }

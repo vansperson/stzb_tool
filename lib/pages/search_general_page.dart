@@ -14,16 +14,16 @@ import 'package:stzb_tool/widgets/search_bar_widget.dart';
 import 'package:stzb_tool/widgets/search_list_widget.dart';
 
 class SearchGeneralPage extends StatefulWidget {
-  final int position;
+  final int site;
 
-  SearchGeneralPage({this.position});
+  SearchGeneralPage({this.site});
 
   @override
   _SearchGeneralState createState() => _SearchGeneralState();
 }
 
 class _SearchGeneralState extends State<SearchGeneralPage> {
-  double _maskTopPosition = 0.0;
+  double _maskTopSite = 0.0;
   bool _showSelectOptions = false;
   bool _showMask = false;
 
@@ -62,7 +62,7 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
                       },
                       listenFocus: (bool focus) {
                         setState(() {
-                          _maskTopPosition = 55.0;
+                          _maskTopSite = 55.0;
                           _showMask = focus;
                           _showSelectOptions = false;
                         });
@@ -89,13 +89,16 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
                                   setState(() {
                                     if(!_showSelectOptions || (_currentGeneral?.key == item.key && _showSelectOptions)) {
                                       _showSelectOptions = !_showSelectOptions;
-                                      _maskTopPosition = 99.0;
+                                      _maskTopSite = 99.0;
                                       _showMask = _showSelectOptions;
                                     }
                                     _currentGeneral = item;
                                   });
                                 },
-                                child: DropSelectWidget(name: _getLabel(item), hasDrop: _currentGeneral?.key == item.key && _showSelectOptions),
+                                child: DropSelectWidget(
+                                  name: _getLabel(item), 
+                                  hasDrop: _currentGeneral?.key == item.key && _showSelectOptions
+                                ),
                               )
                             );
                           }).toList()
@@ -118,7 +121,7 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
             ],
           ),
           Positioned(
-            top: _maskTopPosition + MediaQuery.of(context).padding.top,
+            top: _maskTopSite + MediaQuery.of(context).padding.top,
             left: 0.0, right: 0.0,
             child: AnimatedOpacity(
               opacity: _showMask  ? 1.0 : 0.0,
@@ -178,7 +181,7 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
     ) : SearchListWidget(
       list: result,
       onSelect: (id) {
-        StoreProvider.of<AppState>(context).dispatch(AddGeneral(id: id, position: widget.position));
+        StoreProvider.of<AppState>(context).dispatch(AddGeneral(id: id, site: widget.site));
       }
     );
   }
