@@ -4,7 +4,8 @@ import 'package:stzb_tool/models/squads/squads_model.dart';
 import 'package:stzb_tool/util/enum.dart';
 
 final squadsReducer = combineReducers<SquadsModel>([
-  TypedReducer<SquadsModel, AddGeneral>(_addGeneral)
+  TypedReducer<SquadsModel, AddGeneral>(_addGeneral),
+  TypedReducer<SquadsModel, RemoveGeneral>(_removeGeneral)
 ]);
 
 SquadsModel _addGeneral(SquadsModel squads, action) {
@@ -19,9 +20,26 @@ SquadsModel _addGeneral(SquadsModel squads, action) {
   return squads;
 }
 
+SquadsModel _removeGeneral(SquadsModel squads, action) {
+  if(action.site == GeneralSiteEnum.camp.index) {
+    squads.camp = null;
+  } else if(action.site == GeneralSiteEnum.central.index) {
+    squads.central = null;
+  } else if(action.site == GeneralSiteEnum.forward.index) {
+    squads.forward = null;
+  }
+  return squads;
+}
+
 class AddGeneral {
   final GeneralDetailModel general;
   final int site;
 
   AddGeneral({ this.general, this.site });
+}
+
+class RemoveGeneral {
+  final int site;
+
+  RemoveGeneral({ this.site });
 }

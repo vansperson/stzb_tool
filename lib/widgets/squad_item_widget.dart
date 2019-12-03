@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:stzb_tool/models/general/general_detail_model.dart';
 import 'package:stzb_tool/models/general/method_item_model.dart';
+import 'package:stzb_tool/redux/app_state.dart';
+import 'package:stzb_tool/redux/squads_reducer.dart';
 import 'package:stzb_tool/routers/navigator_util.dart';
 import 'package:stzb_tool/util/enum.dart';
 import 'package:stzb_tool/util/global.dart';
@@ -31,7 +34,7 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          _renderGeneral(),
+          _renderGeneral(context),
           AddMethodWiget(
             MethodSiteEnum.method, 
             methodName: widget.squadItem?.methodName,
@@ -52,7 +55,7 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
     );
   }
 
-  Widget _renderGeneral() {
+  Widget _renderGeneral(BuildContext context) {
     return Container(
       width: 94.0,
       height: 147.0,
@@ -80,11 +83,11 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
                 NavigatorUtil.goGeneralSelectPage(context, widget.generalSite);
               },
               child: Container(
-                margin: const EdgeInsets.only(top: 10.0),
+                margin: const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0, bottom: 20.0),
                 width: 28.0,
                 height: 28.0,
                 child: Image.asset('lib/assets/images/add.png'),
-              )
+              ),
             ) : Stack(
               overflow: Overflow.visible,
               children: <Widget>[
@@ -106,13 +109,15 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
                   )
                 ),
                 Positioned(
-                  top: -11.0,
-                  right: -11.0,
+                  top: -16.0,
+                  right: -16.0,
                   child: InkWell(
-                    onTap: () {
-                      print('烦躁莫名');
+                    onTap: () { 
+                      StoreProvider.of<AppState>(context).dispatch(RemoveGeneral(site: widget.generalSite.index));
+                      print('为啥不执行');
                     },
                     child: Container(
+                      margin: const EdgeInsets.all(10.0),
                       width: 22.0,
                       height: 22.0,
                       child: Image.asset('lib/assets/images/delete.png')
