@@ -92,10 +92,10 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
                                       _maskTopPosition = 99.0;
                                       _showMask = _showSelectOptions;
                                     }
-                                    _currentGeneral = GlobalInfo.generalFiltrate.singleWhere((f) => f.key == item.key);
+                                    _currentGeneral = item;
                                   });
                                 },
-                                child: DropSelectWidget(name: item.label, hasDrop: false),
+                                child: DropSelectWidget(name: _getLabel(item), hasDrop: _currentGeneral?.key == item.key && _showSelectOptions),
                               )
                             );
                           }).toList()
@@ -148,12 +148,7 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
                 ),
                 child: SelectOptionsWidget(
                   options: _currentGeneral.options,
-                  onChange: (GeneralFiltrateOptionModel option) {
-                    setState(() {
-                      _showSelectOptions = false;
-                      _showMask = false;
-                    });
-                  }
+                  onSelect: _selectOption
                 )
               ) : Container()
             ) 
@@ -186,5 +181,41 @@ class _SearchGeneralState extends State<SearchGeneralPage> {
         StoreProvider.of<AppState>(context).dispatch(AddGeneral(id: id, position: widget.position));
       }
     );
+  }
+
+  String _getLabel(GeneralFiltrateModel item) {
+    switch(item.key) {
+      case 'quality':
+        return _quality.isEmpty ? item.label : item.options.singleWhere((f) => f.value == _quality).label;
+      case 'contory':
+        return _contory.isEmpty ? item.label : item.options.singleWhere((f) => f.value == _contory).label;
+      case 'type':
+        return _type.isEmpty ? item.label : item.options.singleWhere((f) => f.value == _type).label;
+      case 'cost':
+        return _cost.isEmpty ? item.label : item.options.singleWhere((f) => f.value == _cost).label;
+      default:
+        return item.label;
+    }
+  }
+
+  void _selectOption(GeneralFiltrateOptionModel option) {
+    setState(() {
+      _showSelectOptions = false;
+      _showMask = false;
+      switch(_currentGeneral.key) {
+        case 'quality':
+          _quality = option.value;
+          break;
+        case 'contory':
+          _contory = option.value;
+          break;
+        case 'type':
+          _type = option.value;
+          break;
+        case 'cost':
+          _cost = option.value;
+          break;
+      }
+    });
   }
 }

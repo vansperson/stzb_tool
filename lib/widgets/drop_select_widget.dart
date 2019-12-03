@@ -21,11 +21,15 @@ class _DropSelectWidgetState extends State<DropSelectWidget> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(widget.name, style: TextStyle(
-            color: Color(0xff647686),
+          Text(
+            widget.name, style: TextStyle(
+            color: widget.hasDrop ? Color(0xff1aa1f3) : Color(0xff647686),
             fontSize: 15.0
           )),
-          Icon(widget.hasDrop ? Icons.arrow_drop_up : Icons.arrow_drop_down, color: Color(0xff647686))
+          Icon(
+            widget.hasDrop ? Icons.arrow_drop_up : Icons.arrow_drop_down, 
+            color: widget.hasDrop ? Color(0xff1aa1f3) : Color(0xff647686)
+          )
         ],
       ),
     );
@@ -34,9 +38,9 @@ class _DropSelectWidgetState extends State<DropSelectWidget> {
 
 class SelectOptionsWidget extends StatefulWidget {
   final List<GeneralFiltrateOptionModel> options;
-  final void Function(GeneralFiltrateOptionModel option) onChange;
+  final void Function(GeneralFiltrateOptionModel option) onSelect;
 
-  SelectOptionsWidget({@required this.options, @required this.onChange});
+  SelectOptionsWidget({@required this.options, @required this.onSelect});
   @override
   _SelectOptionsWidgetState createState() => _SelectOptionsWidgetState();
 }
@@ -50,7 +54,7 @@ class _SelectOptionsWidgetState extends State<SelectOptionsWidget> {
       children: widget.options.map((f) {
         return InkWell(
           onTap: () {
-            widget.onChange(f);
+            widget.onSelect(f);
           },
           child: Container(
             alignment: Alignment.center,

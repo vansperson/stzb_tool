@@ -28,7 +28,7 @@ class _SearchListWidgetState extends State<SearchListWidget> {
         GeneralDetailModel item = widget.list[index];
         return SizedBox(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Stack(
                 children: <Widget>[
