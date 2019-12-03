@@ -2,9 +2,9 @@ part of 'squads_model.dart';
 
 SquadsModel _$SquadsModelFromJson(Map<String, dynamic> json) {
   return SquadsModel(
-    json['camp'] == null ? null: SquadItemModel.fromJson(json['camp'] as Map<String, dynamic>),
-    json['central'] == null ? null : SquadItemModel.fromJson(json['central'] as Map<String, dynamic>),
-    json['forward'] == null ? null : SquadItemModel.fromJson(json['forward'] as Map<String, dynamic>), 
+    json['camp'] == null ? null: GeneralDetailModel.fromJson(json['camp'] as Map<String, dynamic>),
+    json['central'] == null ? null : GeneralDetailModel.fromJson(json['central'] as Map<String, dynamic>),
+    json['forward'] == null ? null : GeneralDetailModel.fromJson(json['forward'] as Map<String, dynamic>), 
   );
 }
 

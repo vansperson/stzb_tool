@@ -19,6 +19,11 @@ class GeneralDetailModel {
   String methodName; // 主技能名称
   int methodId1; // 可拆技能id
   String methodName1; // 可拆技能名称
+  int methodId2; // 技能2id
+  String methodName2; // 技能2名称
+  int methodId3; // 技能3id
+  String methodName3; // 技能3名称
+
   GeneralDetailModel(
     this.id,
     this.name,
@@ -34,7 +39,11 @@ class GeneralDetailModel {
     this.methodId,
     this.methodName,
     this.methodId1,
-    this.methodName1
+    this.methodName1,
+    this.methodId2,
+    this.methodName2,
+    this.methodId3,
+    this.methodName3
 	);
 
   factory GeneralDetailModel.fromJson(Map<String, dynamic> json) =>

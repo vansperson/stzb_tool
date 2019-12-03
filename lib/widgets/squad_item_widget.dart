@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:stzb_tool/models/squads/method_model.dart';
-import 'package:stzb_tool/models/squads/squad_item_model.dart';
+import 'package:stzb_tool/models/general/general_detail_model.dart';
 import 'package:stzb_tool/routers/navigator_util.dart';
 import 'package:stzb_tool/util/enum.dart';
 import 'package:stzb_tool/util/index.dart';
 
 class SquadItemWidget extends StatefulWidget {
   final GeneralPositionEnum generalPosition;
-  final SquadItemModel squadItem;
+  final GeneralDetailModel squadItem;
 
   SquadItemWidget(this.generalPosition, {this.squadItem});
 
@@ -31,9 +30,21 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           _renderGeneral(),
-          AddMethodWiget(MethodPositonEnum.method1, method: widget.squadItem?.method1),
-          AddMethodWiget(MethodPositonEnum.method2, method: widget.squadItem?.method2),
-          AddMethodWiget(MethodPositonEnum.method3, method: widget.squadItem?.method3)
+          AddMethodWiget(
+            MethodPositonEnum.method, 
+            methodName: widget.squadItem?.methodName,
+            methodId: widget.squadItem?.methodId,
+          ),
+          AddMethodWiget(
+            MethodPositonEnum.method2, 
+            methodName: widget.squadItem?.methodName2,
+            methodId: widget.squadItem?.methodId2,
+          ),
+          AddMethodWiget(
+            MethodPositonEnum.method3, 
+            methodName: widget.squadItem?.methodName3,
+            methodId: widget.squadItem?.methodId3,
+          ),
         ],
       ),
     );
@@ -86,7 +97,7 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
                       width: 65.0,
                       height: 65.0,
                       child: Image.network(
-                        '${Utils.baseAvatarUrl}${widget.squadItem.generalDetail.id}.jpg',
+                        '${Utils.baseAvatarUrl}${widget.squadItem.id}.jpg',
                       ),
                     )
                   ),
@@ -105,7 +116,7 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
             Container(
               alignment: Alignment.center,
               child: Text(
-                widget.squadItem == null ? '点击添加武将' : widget.squadItem.generalDetail.name,
+                widget.squadItem == null ? '点击添加武将' : widget.squadItem.name,
                 style: TextStyle(
                   fontSize: 12.0,
                   color: widget.squadItem == null ? Color(0xffa6b2be) : Color(0xff131519)
@@ -121,12 +132,18 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
 
 class AddMethodWiget extends StatelessWidget {
   final MethodPositonEnum methodPosition;
-  final MethodModel method;
-  AddMethodWiget(this.methodPosition, {this.method});
+  final String methodName;
+  final int methodId;
+
+  AddMethodWiget(
+    this.methodPosition,
+    { this.methodName, this.methodId}
+  );
   
   @override
   Widget build(BuildContext context) {
     List<String> _postionDesc = ['战法一', '战法二', '战法三'];
+    String baseUrl = Utils.baseSkillUrl;
     return Container(
       margin: const EdgeInsets.only(top: 40.0),
       child: Column(
@@ -140,7 +157,7 @@ class AddMethodWiget extends StatelessWidget {
                 border: Border.all(width: 1.0, color: Color(0xffccd7dd)
               )
             ),
-            child: method == null ? Container(
+            child: methodId == null ? Container(
               width: 28.0,
               height: 28.0,
               child: Image.asset('lib/assets/images/add.png'),
@@ -155,7 +172,7 @@ class AddMethodWiget extends StatelessWidget {
                     width: 65.0,
                     height: 65.0,
                     child: Image.network(
-                      '${Utils.baseSkillUrl}${method.methodId}.png',
+                      '$baseUrl$methodId.png',
                     )
                   )
                 ),
@@ -175,7 +192,7 @@ class AddMethodWiget extends StatelessWidget {
             alignment: Alignment.center,
             margin: const EdgeInsets.only(top: 16.0),
             child: Text(
-              method == null ? _postionDesc[methodPosition.index] : method.methodName,
+              methodName == null ? _postionDesc[methodPosition.index] : methodName,
               style: TextStyle(fontSize: 12.0, color: Color(0xffa6b2be)),
             ),
           )

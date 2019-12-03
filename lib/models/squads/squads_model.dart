@@ -1,13 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:stzb_tool/models/squads/squad_item_model.dart';
+import 'package:stzb_tool/models/general/general_detail_model.dart';
 
 part 'squads_model.g.dart';
 
 @JsonSerializable()
 class SquadsModel {
-  SquadItemModel camp;
-  SquadItemModel central;
-  SquadItemModel forward;
+  GeneralDetailModel camp;
+  GeneralDetailModel central;
+  GeneralDetailModel forward;
 
   SquadsModel(
     this.camp,

@@ -5,7 +5,7 @@ enum GeneralPositionEnum {
 }
 
 enum MethodPositonEnum {
-  method1, // 战法一
+  method,  // 战法一
   method2, // 战法二
   method3  // 战法三
 }

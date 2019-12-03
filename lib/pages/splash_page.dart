@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:stzb_tool/models/global/general_detail_model.dart';
+import 'package:stzb_tool/models/general/general_detail_model.dart';
 import 'package:stzb_tool/routers/navigator_util.dart';
 import 'package:stzb_tool/util/global.dart';
 

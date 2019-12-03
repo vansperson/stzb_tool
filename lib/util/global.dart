@@ -1,4 +1,4 @@
-import 'package:stzb_tool/models/global/general_detail_model.dart';
+import 'package:stzb_tool/models/general/general_detail_model.dart';
 
 /// 全局变量类
 class GlobalInfo {
