@@ -99,28 +99,30 @@ class _SearchBarWidgetState extends State<SearchBarWidget> with SingleTickerProv
                   child: Icon(CupertinoIcons.search, color: Color(0xffa6b2be))
                 ),
                 Expanded(
-                  child: TextField(
-                    onChanged: (v) {
-                      setState(() {
-                        _keyword = v;
-                        widget.onChange(_keyword);
-                      });
-                    },
-                    controller: _controller,
-                    focusNode: _focusNode,
-                    maxLines: 1,
-                    cursorWidth: 1.0,
-                    cursorColor: Color(0xffa6b2be),
-                    style: TextStyle(
-                      color: Color(0xff333333),
-                      fontSize: 14.0
-                    ),
-                    decoration: InputDecoration(
-                      hintText: '搜索',
-                      contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                      border: InputBorder.none
+                  child: Container(
+                    child: TextField(
+                      onChanged: (v) {
+                        setState(() {
+                          _keyword = v;
+                          widget.onChange(_keyword);
+                        });
+                      },
+                      controller: _controller,
+                      focusNode: _focusNode,
+                      maxLines: 1,
+                      cursorWidth: 1.0,
+                      cursorColor: Color(0xffa6b2be),
+                      style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 14.0
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '搜索',
+                        contentPadding: const EdgeInsets.symmetric(vertical: 10.5),
+                        border: InputBorder.none
+                      )
                     )
-                  ),
+                  ) 
                 ),
                 Offstage(
                   offstage: _keyword.isEmpty,

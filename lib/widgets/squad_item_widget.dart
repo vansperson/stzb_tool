@@ -114,7 +114,6 @@ class _SquadItemWidgetState extends State<SquadItemWidget> {
                   child: InkWell(
                     onTap: () { 
                       StoreProvider.of<AppState>(context).dispatch(RemoveGeneral(site: widget.generalSite.index));
-                      print('为啥不执行');
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10.0),
